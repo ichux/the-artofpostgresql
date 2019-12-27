@@ -2,3 +2,4 @@
 .idea/
 postgresql/
 appdev.dump
+loaded-tables.csv
