@@ -21,5 +21,21 @@ named `appdev-1566753884415.dump`
 4. The [gui-connection.jpg](gui-connection.png) shows the parameters you can enter to access the DB in a GUI.
 The password is empty
 
+## In case
+I added a commented out section that looks like this
+
+```
+docker-compose run --rm database pg_restore taop.dump -f taop.sql
+$(APPDEV) -waq -f taop.sql
+```
+Uncomment that section if your dump file is named `taop.dump` and then comment out the section
+
+```
+docker-compose run --rm database pg_restore appdev.dump -f appdev.sql
+$(APPDEV) -waq -f appdev.sql
+```
+These can be found in the `dumps` section of the Makefile.
+The `taop.dump` file has more information than the `appdev.dump`
+
 ## Suggestions, improvements, errors?
 I would love to see those PRs.
