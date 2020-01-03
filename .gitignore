@@ -2,4 +2,5 @@
 .idea/
 postgresql/
 appdev.dump
+taop.dump
 loaded-tables.csv

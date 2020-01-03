@@ -9,5 +9,5 @@ RUN usermod -a -G sudo postgres; echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sud
 USER postgres
 WORKDIR /var/lib/postgresql
 
-VOLUME [ "/var/lib/postgresql" ]
+VOLUME ["/var/lib/postgresql"]
 EXPOSE 5432

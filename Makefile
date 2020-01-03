@@ -54,10 +54,13 @@ bootstrap: up
 dumps:
 	cp appdev.dump postgresql/
 	docker-compose run --rm database pg_restore appdev.dump -f appdev.sql
-	$(APPDEV) -a -q -w -f appdev.sql
+	$(APPDEV) -waq -f appdev.sql
+
+#	docker-compose run --rm database pg_restore taop.dump -f taop.sql
+#	$(APPDEV) -waq -f taop.sql
 
 csv:
 	$(APPDEV) -c "COPY ($(SCHEMA_TABLE)) TO '/var/lib/postgresql/loaded-tables.csv' DELIMITER ',' CSV HEADER;"
 	mv postgresql/loaded-tables.csv .
 
-.PHONY: bootstrap up down dpa config tail logs bash git csv
+.PHONY: bootstrap up down dpa config tail logs bash git csv dumps
