@@ -5,7 +5,6 @@ SCHEMA_TABLE = SELECT schemaname,tablename FROM pg_catalog.pg_tables WHERE schem
 NOT IN ('information_schema','pg_catalog') ORDER BY schemaname,tablename
 
 DB_CONNECTION = docker-compose run --rm database psql "postgresql://postgres@database:5432"
-RESTORE = pg_restore -h database -U postgres -d appdev --if-exists --clean --verbose --no-owner ./appdev.dump
 APPDEV = docker-compose run --rm database psql "postgresql://postgres@database:5432/appdev"
 
 help:
@@ -50,17 +49,12 @@ config:
 
 bootstrap: up
 	$(DB_CONNECTION) -c 'CREATE DATABASE appdev;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS btree_gist;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS cube;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS earthdistance;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS hstore;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS intarray;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS ip4r;'
-	$(DB_CONNECTION) -c 'CREATE EXTENSION IF NOT EXISTS hll;'
-	$(DB_CONNECTION) -c '\dx'; echo
+	make dumps
+
+dumps:
 	cp appdev.dump postgresql/
-	docker-compose run --rm database $(RESTORE); echo
+	docker-compose run --rm database pg_restore appdev.dump -f appdev.sql
+	$(APPDEV) -a -q -w -f appdev.sql
 
 csv:
 	$(APPDEV) -c "COPY ($(SCHEMA_TABLE)) TO '/var/lib/postgresql/loaded-tables.csv' DELIMITER ',' CSV HEADER;"
