@@ -25,12 +25,14 @@ The password is empty
 I added a commented out section that looks like this
 
 ```
+cp taop.dump postgresql/
 docker-compose run --rm database pg_restore taop.dump -f taop.sql
 $(APPDEV) -waq -f taop.sql
 ```
 Uncomment that section if your dump file is named `taop.dump` and then comment out the section
 
 ```
+cp appdev.dump postgresql/
 docker-compose run --rm database pg_restore appdev.dump -f appdev.sql
 $(APPDEV) -waq -f appdev.sql
 ```
