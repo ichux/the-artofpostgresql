@@ -56,6 +56,7 @@ dumps:
 	docker-compose run --rm database pg_restore appdev.dump -f appdev.sql
 	$(APPDEV) -waq -f appdev.sql
 
+#	cp taop.dump postgresql/
 #	docker-compose run --rm database pg_restore taop.dump -f taop.sql
 #	$(APPDEV) -waq -f taop.sql
 
