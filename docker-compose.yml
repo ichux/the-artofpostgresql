@@ -6,6 +6,7 @@ services:
     container_name: artofpostgres
     environment:
       HOST_IP: host.docker.internal
+      POSTGRES_HOST_AUTH_METHOD: "trust"
     ports:
       - 5440:5432
     restart: always
